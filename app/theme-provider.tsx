@@ -4,7 +4,7 @@ import React from "react";
 type Theme = "light" | "dark";
 
 const defaultContext = {
-  theme: "light" as Theme,
+  theme: "dark" as Theme,
   toggleTheme: () => {},
 };
 
@@ -15,7 +15,7 @@ export const ThemeProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [theme, setTheme] = React.useState<Theme>("light");
+  const [theme, setTheme] = React.useState<Theme>("dark");
 
   React.useEffect(() => {
     const storedTheme = window.localStorage.getItem("theme") as Theme | null;

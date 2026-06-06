@@ -8,7 +8,7 @@ import { LayoutTextFlip } from "@/components/ui/layout-text-flip";
 import { motion } from "motion/react";
 
 
-const words = `Hover over the boxes above and click. To be used on backgrounds of hero sections or Call to Action sections. I beg you don't use it everywhere.`;
+const words = `Results-driven IT graduate specializing in web development, data analytics, automation, and AI integrations, experienced building scalable systems, dashboards, and efficient workflows across multi-branch business environments with confidence.`;
 
 export default function BackgroundRippleEffectDemo() {
   const [ctaClicked, setCtaClicked] = React.useState(false);
@@ -31,8 +31,10 @@ export default function BackgroundRippleEffectDemo() {
             <h2 className="text-4xl font-extrabold text-neutral-800 md:text-6xl lg:text-7xl xl:text-8xl dark:text-neutral-100">
               Jeffrey <br /> Sedoro
             </h2>
-            <h5 className="mt-6 max-w-2xl text-lg md:text-xl lg:text-xl text-neutral-800 dark:text-neutral-500">
-              <i><TextGenerateEffect words={words} /></i>
+            <h5 className="mt-6 max-w-2xl text-sm md:text-base lg:text-base font-normal text-neutral-800 dark:text-neutral-500">
+              <i>
+                <TextGenerateEffect words={words} />
+              </i>
             </h5>
 
             <div className="mt-6 flex items-center justify-center lg:justify-start gap-3">
@@ -43,6 +45,25 @@ export default function BackgroundRippleEffectDemo() {
                  <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
                 Download Resume
               </button>
+<button
+  onClick={handleCTA}
+  className="inline-flex h-12 animate-shimmer items-center justify-center rounded-full border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 text-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
+>
+  Get started
+    <svg
+    className="w-4 h-4 ml-2"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M5 12h14m0 0l-6-6m6 6l-6 6"
+    />
+  </svg>
+</button>
             </div>
           </div>
 
