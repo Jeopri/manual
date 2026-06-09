@@ -114,7 +114,7 @@ export const Header = ({
   toggleTheme: () => void;
 }) => {
   return (
-    <div className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full left-0 top-0">
+    <div id='main-section' className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full left-0 top-0">
 
       <div className="grid gap-12 items-center lg:grid-cols-[1.3fr_0.9fr]">
         <div>

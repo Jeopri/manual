@@ -7,7 +7,7 @@ export const products = [
     title: "Moonbeam",
     link: "https://gomoonbeam.com",
     thumbnail:
-      "https://www.aceternity.com/images/products/thumbnails/new/moonbeam.png",
+      "/images/jepjep.png",
   },
   {
     title: "Cursor",

@@ -6,18 +6,34 @@ import jep from "@/public/images/k-removebg-preview.png";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { LayoutTextFlip } from "@/components/ui/layout-text-flip";
 import { motion } from "motion/react";
+import { useRouter } from "next/navigation";
 
 
 const words = `Results-driven IT graduate specializing in web development, data analytics, automation, and AI integrations, experienced building scalable systems, dashboards, and efficient workflows across multi-branch business environments with confidence.`;
 
 export default function BackgroundRippleEffectDemo() {
   const [ctaClicked, setCtaClicked] = React.useState(false);
+  const router = useRouter();
 
   function handleCTA(e: React.MouseEvent) {
     e.preventDefault();
     setCtaClicked(true);
-    setTimeout(() => setCtaClicked(false), 1800);
+    setTimeout(() => {
+      setCtaClicked(false);
+      document.getElementById("main-section")?.scrollIntoView({ behavior: "smooth" });
+    }, 500);
   }
+function handleSecondaryCTA(e: React.MouseEvent) {
+  e.preventDefault();
+  
+  const link = document.createElement("a");
+  link.href = "/Jeffrey_Sedoro_Resume.pdf";
+  link.download = "Jeffrey_Sedoro_Resume.pdf";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
   return (
     <div className="relative flex min-h-screen w-full flex-col items-start justify-start overflow-hidden">
       <BackgroundRippleEffect />
@@ -39,7 +55,7 @@ export default function BackgroundRippleEffectDemo() {
 
             <div className="mt-6 flex items-center justify-center lg:justify-start gap-3">
               <button
-                onClick={handleCTA}
+                onClick={handleSecondaryCTA}
                 className="inline-flex h-12 animate-shimmer items-center justify-center rounded-full border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-lg text-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
               >
                  <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
@@ -49,7 +65,7 @@ export default function BackgroundRippleEffectDemo() {
   onClick={handleCTA}
   className="inline-flex h-12 animate-shimmer items-center justify-center rounded-full border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 text-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
 >
-  Get started
+  Get Started
     <svg
     className="w-4 h-4 ml-2"
     fill="none"
