@@ -4,10 +4,10 @@ import { HeroParallax } from "../../components/ui/hero-parallax";
 import { motion, AnimatePresence } from "motion/react";
 
 export const products = [
-  {
-    title: "",
+{
+    title: "N/A",
     link: "",
-    thumbnail: "/images/jepjep.png",
+    thumbnail: "/images/ye.gif",
   },
   {
     title: "Malaybalay City Veterinary",
@@ -29,10 +29,10 @@ export const products = [
     link: "",
     thumbnail: "/images/wow.png",
   },
-  {
-    title: "Pixel Perfect",
+{
+    title: "N/A",
     link: "",
-    thumbnail: "https://www.aceternity.com/images/products/thumbnails/new/pixelperfect.png",
+    thumbnail: "/images/ye.gif",
   },
   {
     title: "AI Chatbot Flow",
@@ -45,29 +45,29 @@ export const products = [
     thumbnail: "/images/tre.png",
   },
   {
-    title: "Tailwind Master Kit",
+    title: "N8n - Email Digest Workflow",
     link: "",
-    thumbnail: "https://www.aceternity.com/images/products/thumbnails/new/tailwindmasterkit.png",
+    thumbnail: "/images/ha.png",
   },
   {
     title: "SmartBridge",
     link: "",
     thumbnail: "https://www.aceternity.com/images/products/thumbnails/new/smartbridge.png",
   },
-  {
-    title: "Renderwork Studio",
+{
+    title: "N/A",
     link: "",
-    thumbnail: "https://www.aceternity.com/images/products/thumbnails/new/renderwork.png",
-  },
+    thumbnail: "/images/ye.gif",
+  },  
   {
     title: "Creme Digital",
     link: "",
     thumbnail: "https://www.aceternity.com/images/products/thumbnails/new/cremedigital.png",
   },
   {
-    title: "Golden Bells Academy",
-    link: "https://goldenbellsacademy.com",
-    thumbnail: "https://www.aceternity.com/images/products/thumbnails/new/goldenbellsacademy.png",
+    title: "LogicBase Interactive Mock up Design",
+    link: "https://www.figma.com/design/hwDdkJrkap5JTsYseEYcOO/Sedoro_LBI?node-id=0-1&p=f&t=lY8vQk0bPdgoMvV5-0",
+    thumbnail: "/images/image.png",
   },
   {
     title: "Moneycache Mock Design",
@@ -75,9 +75,9 @@ export const products = [
     thumbnail: "/images/webdesign1.png",
   },
   {
-    title: "E Free Invoice",
-    link: "https://efreeinvoice.com",
-    thumbnail: "https://www.aceternity.com/images/products/thumbnails/new/efreeinvoice.png",
+    title: "N/A",
+    link: "",
+    thumbnail: "/images/ye.gif",
   },
 ];
 

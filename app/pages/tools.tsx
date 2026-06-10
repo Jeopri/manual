@@ -78,7 +78,7 @@ const ICONS = {
   figma:       `${DI}/figma/figma-original.svg`,
   angular:     `${DI2}/angularjs/angularjs-original.svg`,
   // Special
-  openclaw:    "/openclaw.jpg",
+  openclaw:    "/images/claw.png",
   n8n:         "https://n8n.io/favicon.ico",
   claude:      "https://anthropic.com/favicon.ico",
 };

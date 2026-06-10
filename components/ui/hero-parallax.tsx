@@ -71,39 +71,45 @@ export const HeroParallax = ({
       <motion.div
         style={{ rotateX, rotateZ, translateY, opacity }}
       >
-        <motion.div className="relative flex flex-row-reverse space-x-reverse space-x-20 mb-20">
-          <div className="absolute -top-6 left-0 z-20 bg-black/40 text-white px-2 py-0.5 rounded text-xs md:text-sm font-medium">// Web development</div>
-          {firstRow.map((product) => (
-            <ProductCard
-              product={product}
-              translate={translateX}
-              key={product.title}
-              onClick={() => onProductClick?.(product)}
-            />
-          ))}
-        </motion.div>
-        <motion.div className="relative flex flex-row mb-20 space-x-20">
-          <div className="absolute -top-6 left-0 z-20 bg-black/40 text-white px-2 py-0.5 rounded text-xs md:text-sm font-medium">// AI & RPA automation</div>
-          {secondRow.map((product) => (
-            <ProductCard
-              product={product}
-              translate={translateXReverse}
-              key={product.title}
-              onClick={() => onProductClick?.(product)}
-            />
-          ))}
-        </motion.div>
-        <motion.div className="relative flex flex-row-reverse space-x-reverse space-x-20">
-          <div className="absolute -top-6 left-0 z-20 bg-black/40 text-white px-2 py-0.5 rounded text-xs md:text-sm font-medium">// Web designing</div>
-          {thirdRow.map((product) => (
-            <ProductCard
-              product={product}
-              translate={translateX}
-              key={product.title}
-              onClick={() => onProductClick?.(product)}
-            />
-          ))}
-        </motion.div>
+        <div className="mb-20">
+          <p className="pl-4 mb-3 text-white/50 text-xs md:text-sm font-mono tracking-widest">// Web development</p>
+          <motion.div className="flex flex-row-reverse space-x-reverse space-x-20">
+            {firstRow.map((product, i) => (
+              <ProductCard
+                product={product}
+                translate={translateX}
+                key={`row1-${i}`}
+                onClick={() => onProductClick?.(product)}
+              />
+            ))}
+          </motion.div>
+        </div>
+        <div className="mb-20">
+          <p className="pl-4 mb-3 text-white/50 text-xs md:text-sm font-mono tracking-widest">// AI & RPA automation</p>
+          <motion.div className="flex flex-row space-x-20">
+            {secondRow.map((product, i) => (
+              <ProductCard
+                product={product}
+                translate={translateXReverse}
+                key={`row2-${i}`}
+                onClick={() => onProductClick?.(product)}
+              />
+            ))}
+          </motion.div>
+        </div>
+        <div>
+          <p className="pl-4 mb-3 text-white/50 text-xs md:text-sm font-mono tracking-widest">// Web designing</p>
+          <motion.div className="flex flex-row-reverse space-x-reverse space-x-20">
+            {thirdRow.map((product, i) => (
+              <ProductCard
+                product={product}
+                translate={translateX}
+                key={`row3-${i}`}
+                onClick={() => onProductClick?.(product)}
+              />
+            ))}
+          </motion.div>
+        </div>
       </motion.div>
     </div>
   );
