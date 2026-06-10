@@ -7,20 +7,22 @@ import {
   useSpring,
   MotionValue,
 } from "motion/react";
-import Image from "next/image";
 import { useTheme } from "@/app/theme-provider";
-import jeffreySedoroImage from "@/public/images/jep.png";
 
+/* ─── Types ──────────────────────────────────────────────────────────────── */
+type Product = {
+  title: string;
+  link: string;
+  thumbnail: string;
+};
 
-
+/* ─── HeroParallax ────────────────────────────────────────────────────────── */
 export const HeroParallax = ({
   products,
+  onProductClick,
 }: {
-  products: {
-    title: string;
-    link: string;
-    thumbnail: string;
-  }[];
+  products: Product[];
+  onProductClick?: (product: Product) => void;
 }) => {
   const firstRow = products.slice(0, 5);
   const secondRow = products.slice(5, 10);
@@ -57,6 +59,7 @@ export const HeroParallax = ({
     useTransform(scrollYProgress, [0, 0.2], [-700, 500]),
     springConfig
   );
+
   const { theme, toggleTheme } = useTheme();
 
   return (
@@ -66,38 +69,38 @@ export const HeroParallax = ({
     >
       <Header theme={theme} toggleTheme={toggleTheme} />
       <motion.div
-        style={{
-          rotateX,
-          rotateZ,
-          translateY,
-          opacity,
-        }}
-        className=""
+        style={{ rotateX, rotateZ, translateY, opacity }}
       >
-        <motion.div className="flex flex-row-reverse space-x-reverse space-x-20 mb-20">
+        <motion.div className="relative flex flex-row-reverse space-x-reverse space-x-20 mb-20">
+          <div className="absolute -top-6 left-0 z-20 bg-black/40 text-white px-2 py-0.5 rounded text-xs md:text-sm font-medium">// Web development</div>
           {firstRow.map((product) => (
             <ProductCard
               product={product}
               translate={translateX}
               key={product.title}
+              onClick={() => onProductClick?.(product)}
             />
           ))}
         </motion.div>
-        <motion.div className="flex flex-row  mb-20 space-x-20 ">
+        <motion.div className="relative flex flex-row mb-20 space-x-20">
+          <div className="absolute -top-6 left-0 z-20 bg-black/40 text-white px-2 py-0.5 rounded text-xs md:text-sm font-medium">// AI & RPA automation</div>
           {secondRow.map((product) => (
             <ProductCard
               product={product}
               translate={translateXReverse}
               key={product.title}
+              onClick={() => onProductClick?.(product)}
             />
           ))}
         </motion.div>
-        <motion.div className="flex flex-row-reverse space-x-reverse space-x-20">
+        <motion.div className="relative flex flex-row-reverse space-x-reverse space-x-20">
+          <div className="absolute -top-6 left-0 z-20 bg-black/40 text-white px-2 py-0.5 rounded text-xs md:text-sm font-medium">// Web designing</div>
           {thirdRow.map((product) => (
             <ProductCard
               product={product}
               translate={translateX}
               key={product.title}
+              onClick={() => onProductClick?.(product)}
             />
           ))}
         </motion.div>
@@ -106,6 +109,7 @@ export const HeroParallax = ({
   );
 };
 
+/* ─── Header ──────────────────────────────────────────────────────────────── */
 export const Header = ({
   theme,
   toggleTheme,
@@ -114,17 +118,20 @@ export const Header = ({
   toggleTheme: () => void;
 }) => {
   return (
-    <div id='main-section' className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full left-0 top-0">
-
+    <div
+      id="main-section"
+      className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full left-0 top-0"
+    >
       <div className="grid gap-12 items-center lg:grid-cols-[1.3fr_0.9fr]">
         <div>
           <h1 className="text-2xl md:text-7xl font-bold dark:text-white">
-            Consist of <br /> huge collection of products and tools that I have built over the years.
+            Consist of <br /> work that spans across design, development, and
+            automation.
           </h1>
           <p className="max-w-2xl text-base md:text-xl mt-8 dark:text-neutral-200">
-            I build beautiful products with the latest technologies and frameworks.
-            I am a passionate developer and a designer that love to build
-            amazing products.
+            From crafting pixel-perfect interfaces to building robust backend
+            systems and automating complex workflows — I bring ideas to life
+            across the full spectrum of web.
           </p>
         </div>
       </div>
@@ -132,44 +139,41 @@ export const Header = ({
   );
 };
 
+/* ─── ProductCard ─────────────────────────────────────────────────────────── */
 export const ProductCard = ({
   product,
   translate,
+  onClick,
 }: {
-  product: {
-    title: string;
-    link: string;
-    thumbnail: string;
-  };
+  product: Product;
   translate: MotionValue<number>;
+  onClick?: () => void;
 }) => {
   return (
     <motion.div
-      style={{
-        x: translate,
-      }}
-      whileHover={{
-        y: -20,
-      }}
+      style={{ x: translate }}
+      whileHover={{ y: -20 }}
       key={product.title}
-      className="group/product h-96 w-[30rem] relative shrink-0"
+      className="group/product h-96 w-[30rem] relative shrink-0 cursor-pointer"
+      onClick={onClick}
     >
-      <a
-        href={product.link}
-        className="block group-hover/product:shadow-2xl "
-      >
-        <img
-          src={product.thumbnail}
-          height="600"
-          width="600"
-          className="object-cover object-left-top absolute h-full w-full inset-0"
-          alt={product.title}
-        />
-      </a>
-      <div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-80 bg-black pointer-events-none"></div>
-      <h2 className="absolute bottom-4 left-4 opacity-0 group-hover/product:opacity-100 text-white">
-        {product.title}
-      </h2>
+      {/* Thumbnail */}
+      <img
+        src={product.thumbnail}
+        height="600"
+        width="600"
+        className="object-cover object-left-top absolute h-full w-full inset-0"
+        alt={product.title}
+      />
+
+      {/* Hover overlay */}
+      <div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-80 bg-black pointer-events-none transition-opacity duration-200" />
+
+      {/* Title + click hint on hover */}
+      <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover/product:opacity-100 transition-opacity duration-200 flex items-end justify-between">
+        <h2 className="text-white font-semibold text-base">{product.title}</h2>
+        <span className="text-white/60 text-xs">Click to preview</span>
+      </div>
     </motion.div>
   );
 };

@@ -31,7 +31,7 @@ export default function ContactPage() {
           {/* Divider + social links */}
           <div className="mt-10 pt-8 border-t border-white/[0.07] flex flex-wrap gap-6">
           <a
-            href="https://github.com/yourusername"
+            href="https://github.com/Jeopri"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-300 transition-colors"
@@ -44,7 +44,7 @@ export default function ContactPage() {
           </a>
 
           <a
-            href="https://linkedin.com/in/yourusername"
+            href="https://www.linkedin.com/in/jeffrey-sedoro/"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-300 transition-colors"
@@ -57,7 +57,7 @@ export default function ContactPage() {
           </a>
 
           <a
-            href="mailto:your@email.com"
+            href="jeffreysedoro5@gmail.com"
             className="flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-300 transition-colors"
           >
             {/* Email icon */}
