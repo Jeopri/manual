@@ -18,22 +18,8 @@ export function LocationMap() {
   const debounceRef = useRef<any>(null);
 
   useEffect(() => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          setLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude, label: "Current Location" });
-          setReady(true);
-        },
-        () => {
-          setLocation(DEFAULT_LOC);
-          setReady(true);
-        },
-        { timeout: 6000, enableHighAccuracy: false },
-      );
-    } else {
-      setLocation(DEFAULT_LOC);
-      setReady(true);
-    }
+    setLocation(DEFAULT_LOC);
+    setReady(true);
   }, []);
 
   const updateMap = useCallback((lat: number, lng: number, label: string) => {

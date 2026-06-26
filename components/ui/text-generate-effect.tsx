@@ -31,30 +31,22 @@ export const TextGenerateEffect = ({
     );
   }, [scope.current]);
 
-  const renderWords = () => {
-    return (
-      <motion.div ref={scope}>
-        {wordsArray.map((word, idx) => (
-          <motion.span
-            key={word + idx}
-            className="text-foreground opacity-0"
-            style={{
-              filter: filter ? "blur(10px)" : "none",
-            }}
-          >
-            {word}{" "}
-          </motion.span>
-        ))}
-      </motion.div>
-    );
-  };
-
   return (
     <div className={cn(className)}>
-      <div className="mt-4">
-        <div className="text-foreground text-base md:text-lg leading-snug tracking-normal font-normal">
-          {renderWords()}
-        </div>
+      <div className="text-sm md:text-base leading-relaxed text-muted-foreground">
+        <motion.div ref={scope} className="inline">
+          {wordsArray.map((word, idx) => (
+            <motion.span
+              key={word + idx}
+              className="opacity-0"
+              style={{
+                filter: filter ? "blur(10px)" : "none",
+              }}
+            >
+              {word}{" "}
+            </motion.span>
+          ))}
+        </motion.div>
       </div>
     </div>
   );
