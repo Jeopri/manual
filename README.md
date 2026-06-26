@@ -20,6 +20,8 @@ Personal portfolio built with [Next.js](https://nextjs.org) (App Router), [Motio
 | 30% Text / Card | `#1a1a1a` / `#eae7e1` | `#f0ede8` / `#1a1a1a` |
 | 10% Accent | `#7CB342` muted green | `#BEFF00` acid-green |
 
+> Dark mode is the default theme. Toggle preference is persisted to `localStorage`.
+
 ## Getting Started
 
 ```bash

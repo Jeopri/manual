@@ -24,8 +24,7 @@ export const ThemeProvider = ({
       return;
     }
 
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    setTheme(prefersDark ? "dark" : "light");
+    setTheme("dark");
   }, []);
 
   React.useEffect(() => {
