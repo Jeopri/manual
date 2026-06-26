@@ -3,9 +3,9 @@ import React, { useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 export const BackgroundRippleEffect = ({
-  rows = 15,
-  cols = 27,
-  cellSize = 70,
+  rows = 18,
+  cols = 30,
+  cellSize = 55,
 }: {
   rows?: number;
   cols?: number;
@@ -23,8 +23,7 @@ export const BackgroundRippleEffect = ({
       ref={ref}
       className={cn(
         "absolute inset-0 h-full w-full",
-        "[--cell-border-color:var(--color-neutral-300)] [--cell-fill-color:var(--color-neutral-100)] [--cell-shadow-color:var(--color-neutral-500)]",
-        "dark:[--cell-border-color:var(--color-neutral-700)] dark:[--cell-fill-color:var(--color-neutral-900)] dark:[--cell-shadow-color:var(--color-neutral-800)]",
+        "[--cell-border-color:color-mix(in oklch, var(--color-neutral-800), transparent)] [--cell-fill-color:color-mix(in oklch, var(--color-neutral-900), transparent)] [--cell-shadow-color:var(--color-neutral-950)]",
       )}
     >
       <div className="relative h-auto w-auto overflow-hidden">
@@ -113,7 +112,7 @@ const DivGrid = ({
           <div
             key={idx}
             className={cn(
-              "cell relative border-[0.5px] opacity-40 transition-opacity duration-150 will-change-transform hover:opacity-80 dark:shadow-[0px_0px_40px_1px_var(--cell-shadow-color)_inset]",
+              "cell relative border-[0.5px] opacity-25 backdrop-blur-[0.8px] transition-opacity duration-150 will-change-transform hover:opacity-50 dark:shadow-[0px_0px_40px_1px_var(--cell-shadow-color)_inset]",
               clickedCell && "animate-cell-ripple [animation-fill-mode:none]",
               !interactive && "pointer-events-none",
             )}

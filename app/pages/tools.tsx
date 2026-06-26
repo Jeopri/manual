@@ -1,245 +1,226 @@
 "use client";
-import React from "react";
-import { motion } from "motion/react";
-import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 
-/* ─── Types ──────────────────────────────────────────────────────────────── */
-type FloatingIcon = {
-  src: string;
-  alt: string;
-  top?: string;
-  left?: string;
-  right?: string;
-  bottom?: string;
-  size: number;
-  rotate?: number;
-  opacity?: number;
-};
-
-/* ─── Floating icons renderer ────────────────────────────────────────────── */
-function FloatingIcons({ icons }: { icons: FloatingIcon[] }) {
-  return (
-    <>
-      {icons.map((icon, i) => (
-        <motion.img
-          key={i}
-          src={icon.src}
-          alt={icon.alt}
-          width={icon.size}
-          height={icon.size}
-          className="absolute pointer-events-none select-none"
-          style={{
-            top: icon.top,
-            left: icon.left,
-            right: icon.right,
-            bottom: icon.bottom,
-            opacity: icon.opacity ?? 0.20,
-            rotate: `${icon.rotate ?? 0}deg`,
-            filter: "drop-shadow(0 0 10px rgba(255,255,255,0.08))",
-          }}
-          animate={{ y: [0, -8, 0] }}
-          transition={{
-            duration: 3 + i * 0.55,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: i * 0.3,
-          }}
-        />
-      ))}
-    </>
-  );
-}
-
-/* ─── Icon URLs ──────────────────────────────────────────────────────────── */
 const DI  = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons";
 const DI2 = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons";
 
-const ICONS = {
-  nextjs:      `${DI}/nextjs/nextjs-original.svg`,
-  react:       `${DI}/react/react-original.svg`,
-  typescript:  `${DI}/typescript/typescript-original.svg`,
-  tailwind:    `${DI2}/tailwindcss/tailwindcss-original.svg`,
-  javascript:  `${DI}/javascript/javascript-original.svg`,
-  html:        `${DI}/html5/html5-original.svg`,
-  css:         `${DI}/css3/css3-original.svg`,
-  redux:       `${DI}/redux/redux-original.svg`,
-  vite:        `${DI2}/vitejs/vitejs-original.svg`,
-  laravel:     `${DI2}/laravel/laravel-original.svg`,
-  nodejs:      `${DI}/nodejs/nodejs-original.svg`,
-  mongodb:     `${DI}/mongodb/mongodb-original.svg`,
-  postgresql:  `${DI}/postgresql/postgresql-original.svg`,
-  mysql:       `${DI}/mysql/mysql-original.svg`,
-  docker:      `${DI}/docker/docker-original.svg`,
-  php:         `${DI}/php/php-original.svg`,
-  git:         `${DI}/git/git-original.svg`,
-  python:      `${DI}/python/python-original.svg`,
-  googlecloud: `${DI}/googlecloud/googlecloud-original.svg`,
-  aws:         `${DI2}/amazonwebservices/amazonwebservices-original-wordmark.svg`,
-  figma:       `${DI}/figma/figma-original.svg`,
-  angular:     `${DI2}/angularjs/angularjs-original.svg`,
-  // Special
-  openclaw:    "/images/claw.png",
-  n8n:         "https://n8n.io/favicon.ico",
-  claude:      "https://anthropic.com/favicon.ico",
+type ToolItem = {
+  icon: string;
+  name: string;
 };
 
-/*
-  Icon placement strategy — keep center ~40% of card clear for text.
-  Corners: top-left, top-right, bottom-left, bottom-right
-  Edges: top-center, bottom-center, left-mid, right-mid
-  All icons stay within 0–22% from any edge so they don't reach the center.
-*/
-
-const frontendIcons: FloatingIcon[] = [
-  // corners
-  { src: ICONS.nextjs,     alt: "Next.js",    size: 52, top: "4%",    left: "4%",    opacity: 0.28, rotate: -12 },
-  { src: ICONS.react,      alt: "React",      size: 48, top: "4%",    right: "4%",   opacity: 0.26, rotate: 14  },
-  { src: ICONS.typescript, alt: "TypeScript", size: 44, bottom: "4%", left: "4%",    opacity: 0.24, rotate: 8   },
-  { src: ICONS.tailwind,   alt: "Tailwind",   size: 46, bottom: "4%", right: "4%",   opacity: 0.24, rotate: -8  },
-  // top edge
-  { src: ICONS.javascript, alt: "JS",         size: 36, top: "4%",    left: "38%",   opacity: 0.20, rotate: 10  },
-  // bottom edge
-  { src: ICONS.html,       alt: "HTML5",      size: 38, bottom: "4%", left: "38%",   opacity: 0.20, rotate: -6  },
-  // left mid
-  { src: ICONS.css,        alt: "CSS3",       size: 36, top: "42%",   left: "3%",    opacity: 0.18, rotate: 18  },
-  // right mid
-  { src: ICONS.vite,       alt: "Vite",       size: 34, top: "42%",   right: "3%",   opacity: 0.18, rotate: -14 },
-  // inner corners (slightly inside)
-  { src: ICONS.redux,      alt: "Redux",      size: 32, top: "22%",   left: "14%",   opacity: 0.15, rotate: 5   },
-  { src: ICONS.nextjs,     alt: "Next.js",    size: 30, bottom: "22%",right: "14%",  opacity: 0.13, rotate: -5  },
-];
-
-const backendIcons: FloatingIcon[] = [
-  { src: ICONS.laravel,    alt: "Laravel",    size: 52, top: "4%",    left: "4%",    opacity: 0.28, rotate: -10 },
-  { src: ICONS.nodejs,     alt: "Node.js",    size: 48, top: "4%",    right: "4%",   opacity: 0.26, rotate: 12  },
-  { src: ICONS.mongodb,    alt: "MongoDB",    size: 44, bottom: "4%", left: "4%",    opacity: 0.24, rotate: -8  },
-  { src: ICONS.postgresql, alt: "PostgreSQL", size: 46, bottom: "4%", right: "4%",   opacity: 0.24, rotate: 8   },
-  { src: ICONS.docker,     alt: "Docker",     size: 36, top: "4%",    left: "38%",   opacity: 0.20, rotate: 6   },
-  { src: ICONS.mysql,      alt: "MySQL",      size: 38, bottom: "4%", left: "38%",   opacity: 0.20, rotate: -10 },
-  { src: ICONS.php,        alt: "PHP",        size: 36, top: "42%",   left: "3%",    opacity: 0.18, rotate: -16 },
-  { src: ICONS.git,        alt: "Git",        size: 34, top: "42%",   right: "3%",   opacity: 0.18, rotate: 14  },
-  { src: ICONS.nodejs,     alt: "Node.js",    size: 30, top: "22%",   left: "14%",   opacity: 0.14, rotate: 5   },
-  { src: ICONS.laravel,    alt: "Laravel",    size: 28, bottom: "22%",right: "14%",  opacity: 0.12, rotate: -5  },
-];
-
-const aiIcons: FloatingIcon[] = [
-  { src: ICONS.python,      alt: "Python",      size: 52, top: "4%",    left: "4%",    opacity: 0.28, rotate: -8  },
-  { src: ICONS.googlecloud, alt: "GCP",         size: 48, top: "4%",    right: "4%",   opacity: 0.26, rotate: 14  },
-  { src: ICONS.openclaw,    alt: "OpenClaw",    size: 46, bottom: "4%", left: "4%",    opacity: 0.35, rotate: -6  },
-  { src: ICONS.aws,         alt: "AWS",         size: 52, bottom: "4%", right: "4%",   opacity: 0.22, rotate: 8   },
-  { src: ICONS.n8n,         alt: "N8N",         size: 38, top: "4%",    left: "38%",   opacity: 0.28, rotate: 10  },
-  { src: ICONS.claude,      alt: "Claude Code", size: 36, bottom: "4%", left: "38%",   opacity: 0.28, rotate: -10 },
-  { src: ICONS.docker,      alt: "Docker",      size: 34, top: "42%",   left: "3%",    opacity: 0.18, rotate: 16  },
-  { src: ICONS.python,      alt: "Python",      size: 32, top: "42%",   right: "3%",   opacity: 0.16, rotate: -12 },
-  { src: ICONS.nodejs,      alt: "Node.js",     size: 30, top: "22%",   left: "14%",   opacity: 0.14, rotate: 5   },
-  { src: ICONS.googlecloud, alt: "GCP",         size: 28, bottom: "22%",right: "14%",  opacity: 0.12, rotate: -5  },
-];
-
-const designIcons: FloatingIcon[] = [
-  { src: ICONS.figma,      alt: "Figma",       size: 52, top: "4%",    left: "4%",    opacity: 0.28, rotate: -10 },
-  { src: ICONS.tailwind,   alt: "Tailwind",    size: 48, top: "4%",    right: "4%",   opacity: 0.26, rotate: 14  },
-  { src: ICONS.html,       alt: "HTML5",       size: 44, bottom: "4%", left: "4%",    opacity: 0.24, rotate: 8   },
-  { src: ICONS.css,        alt: "CSS3",        size: 46, bottom: "4%", right: "4%",   opacity: 0.24, rotate: -8  },
-  { src: ICONS.react,      alt: "React",       size: 36, top: "4%",    left: "38%",   opacity: 0.20, rotate: 6   },
-  { src: ICONS.javascript, alt: "JavaScript",  size: 38, bottom: "4%", left: "38%",   opacity: 0.20, rotate: -10 },
-  { src: ICONS.nextjs,     alt: "Next.js",     size: 36, top: "42%",   left: "3%",    opacity: 0.18, rotate: -14 },
-  { src: ICONS.angular,    alt: "Angular",     size: 34, top: "42%",   right: "3%",   opacity: 0.18, rotate: 12  },
-  { src: ICONS.figma,      alt: "Figma",       size: 30, top: "22%",   left: "14%",   opacity: 0.14, rotate: 5   },
-  { src: ICONS.typescript, alt: "TypeScript",  size: 28, bottom: "22%",right: "14%",  opacity: 0.12, rotate: -5  },
-];
-
-/* ─── Shared card ─────────────────────────────────────────────────────────── */
-function TechCard({
-  title,
-  description,
-  icons,
-  accent,
-}: {
+type ToolSection = {
   title: string;
   description: string;
-  icons: FloatingIcon[];
-  accent: string;
-}) {
+  tools: ToolItem[];
+};
+
+const sections: ToolSection[] = [
+  {
+    title: "Frontend Development",
+    description: "Building modern, type-safe web interfaces with component-driven architecture.",
+    tools: [
+      { icon: `${DI}/nextjs/nextjs-original.svg`, name: "Next.js" },
+      { icon: `${DI}/react/react-original.svg`, name: "React" },
+      { icon: `${DI}/typescript/typescript-original.svg`, name: "TypeScript" },
+      { icon: `${DI2}/tailwindcss/tailwindcss-original.svg`, name: "Tailwind CSS" },
+      { icon: `${DI}/javascript/javascript-original.svg`, name: "JavaScript" },
+      { icon: `${DI}/html5/html5-original.svg`, name: "HTML5" },
+      { icon: `${DI}/css3/css3-original.svg`, name: "CSS3" },
+      { icon: `${DI}/redux/redux-original.svg`, name: "Redux" },
+      { icon: `${DI2}/vitejs/vitejs-original.svg`, name: "Vite" },
+      { icon: `${DI2}/angularjs/angularjs-original.svg`, name: "Angular" },
+    ],
+  },
+  {
+    title: "Backend Development",
+    description: "Designing robust server-side systems, APIs, and backend logic.",
+    tools: [
+      { icon: `${DI2}/laravel/laravel-original.svg`, name: "Laravel" },
+      { icon: `${DI}/nodejs/nodejs-original.svg`, name: "Node.js" },
+      { icon: `${DI}/php/php-original.svg`, name: "PHP" },
+      { icon: `${DI2}/nestjs/nestjs-original.svg`, name: "NestJS" },
+      { icon: `${DI}/django/django-plain.svg`, name: "Django" },
+      { icon: `${DI}/dot-net/dot-net-original.svg`, name: "ASP.NET" },
+      { icon: `${DI}/git/git-original.svg`, name: "Git" },
+    ],
+  },
+  {
+    title: "Databases",
+    description: "Managing and optimizing structured and document-based data storage.",
+    tools: [
+      { icon: `${DI}/mongodb/mongodb-original.svg`, name: "MongoDB" },
+      { icon: `${DI}/postgresql/postgresql-original.svg`, name: "PostgreSQL" },
+      { icon: `${DI}/mysql/mysql-original.svg`, name: "MySQL" },
+    ],
+  },
+  {
+    title: "Automations",
+    description: "Automating workflows with RPA, AI assistants, and integration platforms.",
+    tools: [
+      { icon: `${DI}/python/python-original.svg`, name: "Python" },
+      { icon: "https://n8n.io/favicon.ico", name: "N8N" },
+      { icon: "https://anthropic.com/favicon.ico", name: "Claude" },
+      { icon: "https://anthropic.com/favicon.ico", name: "Claude Code" },
+      { icon: "/images/claw.png", name: "OpenClaw" },
+      { icon: "https://www.uipath.com/favicon.ico", name: "UiPath" },
+    ],
+  },
+  {
+    title: "Cloud & Containerization",
+    description: "Deploying, scaling, and containerizing applications in the cloud.",
+    tools: [
+      { icon: `${DI}/googlecloud/googlecloud-original.svg`, name: "Google Cloud" },
+      { icon: `${DI2}/amazonwebservices/amazonwebservices-original-wordmark.svg`, name: "AWS" },
+      { icon: `${DI}/docker/docker-original.svg`, name: "Docker" },
+    ],
+  },
+];
+
+const sectionColors = [
+  "from-blue-950/20 via-blue-900/10 to-transparent",
+  "from-blue-950/20 via-blue-900/10 to-transparent",
+  "from-blue-950/20 via-blue-900/10 to-transparent",
+  "from-blue-950/20 via-blue-900/10 to-transparent",
+  "from-blue-950/20 via-blue-900/10 to-transparent",
+];
+
+function ToolCard({ tool }: { tool: ToolItem }) {
   return (
-    <div className={`relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl ${accent}`}>
-      {/* Icons pinned to edges — overflow-hidden clips them */}
-      <FloatingIcons icons={icons} />
-
-      {/* Dark scrim so text always reads clearly */}
-      <div className="absolute inset-0 bg-black/30" />
-
-      {/* Center text — safe zone, no icons reach here */}
-      <div className="relative z-10 flex flex-col items-center justify-center text-center px-16">
-        <h3 className="text-lg font-bold text-white mb-2">{title}</h3>
-        <p className="text-white/70 text-xs leading-relaxed max-w-[180px]">
-          {description}
-        </p>
+    <div className="flex items-center gap-3 rounded-lg border border-border bg-card px-4 py-3 transition-all duration-200 hover:border-primary/30 hover:bg-primary/[0.03]">
+      <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-muted/30">
+        <img
+          src={tool.icon}
+          alt={tool.name}
+          className="h-5 w-5 object-contain"
+          referrerPolicy="no-referrer"
+        />
       </div>
+      <span className="text-sm text-muted-foreground">{tool.name}</span>
     </div>
   );
 }
 
-/* ─── Content ─────────────────────────────────────────────────────────────── */
-const content = [
-  {
-    title: "Frontend Development",
-    description:
-      "Building modern, type-safe web interfaces with Next.js, React, and TypeScript. From pixel-perfect UI components to seamless API integrations, I craft fast and accessible frontends that connect cleanly with any backend.",
-    content: (
-      <TechCard
-        title="Frontend Development"
-        description="Next.js · React · TypeScript · Tailwind · Vite · Redux"
-        icons={frontendIcons}
-        accent="bg-gradient-to-br from-[#0f2027] via-[#1a3a4a] to-[#0d1f2d]"
-      />
-    ),
+const variants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 300 : -300,
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
   },
-  {
-    title: "Backend Development",
-    description:
-      "Designing and building robust server-side systems with Laravel, Node.js, and MongoDB. I handle everything from database schema design and API architecture to authentication flows, ETL pipelines, and multi-branch data infrastructure.",
-    content: (
-      <TechCard
-        title="Backend Development"
-        description="Laravel · Node.js · MongoDB · PostgreSQL · MySQL · Docker · PHP"
-        icons={backendIcons}
-        accent="bg-gradient-to-br from-[#1a0a2e] via-[#2d1b4e] to-[#0f0a1e]"
-      />
-    ),
-  },
-  {
-    title: "AI & Automations",
-    description:
-      "Automating repetitive workflows with RPA, N8N, and Claude Code. Building AI assistants integrated with Anthropic and Gemini models, and setting up ETL pipelines that help businesses eliminate manual operations entirely.",
-    content: (
-      <TechCard
-        title="AI & Automations"
-        description="N8N · Claude Code · OpenClaw · Python · GCP · AWS · RPA"
-        icons={aiIcons}
-        accent="bg-gradient-to-br from-[#0a1f0a] via-[#1a3a1a] to-[#0d2010]"
-      />
-    ),
-  },
-  {
-    title: "Web Design",
-    description:
-      "Translating ideas into clean, intuitive interfaces using Figma, Tailwind CSS, and component-driven design systems. I apply UX best practices to reduce friction and deliver experiences that feel natural to real users.",
-    content: (
-      <TechCard
-        title="Web Design"
-        description="Figma · Tailwind CSS · HTML5 · CSS3 · React · Aceternity UI"
-        icons={designIcons}
-        accent="bg-gradient-to-br from-[#1f0a0a] via-[#3a1a1a] to-[#200d0d]"
-      />
-    ),
-  },
-];
+  exit: (direction: number) => ({
+    x: direction < 0 ? 300 : -300,
+    opacity: 0,
+  }),
+};
 
-/* ─── Export ──────────────────────────────────────────────────────────────── */
 export default function Tools() {
+  const [[index, direction], setIndex] = useState([0, 0]);
+
+  const paginate = (newDirection: number) => {
+    const next = index + newDirection;
+    if (next >= 0 && next < sections.length) {
+      setIndex([next, newDirection]);
+    }
+  };
+
+  const goTo = (i: number) => {
+    setIndex([i, i > index ? 1 : -1]);
+  };
+
+  const section = sections[index];
+
   return (
-    <div className="w-full py-4">
-      <StickyScroll content={content} />
-    </div>
+    <section className="w-full px-4 py-20 md:px-8 md:py-32">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-16">
+          <p className="mb-3 text-xs font-mono tracking-widest text-muted-foreground">
+            // tools-and-skills
+          </p>
+          <h2 className="text-3xl md:text-5xl font-bold text-foreground">
+            Tech Stack
+          </h2>
+          <p className="mt-3 max-w-2xl text-sm text-muted-foreground leading-relaxed">
+            Technologies and tools I work with across the full stack.
+          </p>
+        </div>
+
+        <div className="relative overflow-hidden rounded-2xl">
+          <div className={`absolute inset-0 bg-gradient-to-br ${sectionColors[index]}`} />
+
+          <div className="relative z-10">
+            <div className="relative h-[460px] overflow-hidden">
+              <AnimatePresence mode="wait" custom={direction}>
+                <motion.div
+                  key={index}
+                  custom={direction}
+                  variants={variants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ duration: 0.35, ease: "easeInOut" }}
+                  className="absolute inset-0 px-6 py-10 md:px-12 md:py-16"
+                >
+                  <div className="mb-8">
+                    <h3 className="text-2xl md:text-3xl font-bold text-foreground">
+                      {section.title}
+                    </h3>
+                    <p className="mt-2 max-w-xl text-sm text-muted-foreground leading-relaxed">
+                      {section.description}
+                    </p>
+                  </div>
+
+                  <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                    {section.tools.map((tool) => (
+                      <ToolCard key={tool.name} tool={tool} />
+                    ))}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-8 flex items-center justify-between">
+          <div className="flex gap-2">
+            {sections.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => goTo(i)}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  i === index
+                    ? "w-8 bg-primary"
+                    : "w-2 bg-muted-foreground/20 hover:bg-muted-foreground/40"
+                }`}
+              />
+            ))}
+          </div>
+
+          <div className="flex gap-2">
+            <button
+              onClick={() => paginate(-1)}
+              disabled={index === 0}
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition-all duration-200 hover:border-primary/30 hover:bg-primary/[0.04] hover:text-primary disabled:cursor-not-allowed disabled:opacity-30"
+            >
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button
+              onClick={() => paginate(1)}
+              disabled={index === sections.length - 1}
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition-all duration-200 hover:border-primary/30 hover:bg-primary/[0.04] hover:text-primary disabled:cursor-not-allowed disabled:opacity-30"
+            >
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
