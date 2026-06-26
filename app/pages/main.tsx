@@ -33,8 +33,8 @@ export default function Home() {
   function handleSecondaryCTA(e: React.MouseEvent) {
     e.preventDefault();
     const link = document.createElement("a");
-    link.href = "/Jeffrey_Sedoro_Resume.pdf";
-    link.download = "Jeffrey_Sedoro_Resume.pdf";
+    link.href = "/Jeffrey_Sedoro_CV.pdf";
+    link.download = "Jeffrey_Sedoro_CV.pdf";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -170,15 +170,6 @@ export default function Home() {
         <div className="relative z-10 hidden min-h-screen md:block">
           <nav className="absolute left-0 right-0 top-0 z-10 flex items-center justify-between px-8 py-5">
             <div className="flex gap-8">
-              {["Contact", "Portfolio", "Article"].map((item) => (
-                <a
-                  key={item}
-                  href="#"
-                  className="text-xs font-medium uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  {item}
-                </a>
-              ))}
             </div>
             <span className="text-sm font-black uppercase tracking-[0.2em] text-foreground" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
               Jeffrey
@@ -231,9 +222,6 @@ export default function Home() {
             <TextGenerateEffect words={words} className="italic" />
           </div>
 
-          <p className="absolute right-20 z-10 text-xs italic tracking-wide text-foreground/25" style={{ bottom: "120px" }}>
-            A Web Developer
-          </p>
 
           <div className="absolute left-7 z-10 flex flex-col gap-1.5" style={{ bottom: "80px" }}>
             {[["React", "Next.js"], ["Node.js", "TypeScript"], ["Python", "Tailwind"]].map(([a, b]) => (

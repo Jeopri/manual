@@ -30,15 +30,9 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
-  --animate-cell-ripple: cell-ripple var(--duration, 200ms) ease-out none 1 var(--delay, 0ms);
   --animate-loading-bar: loading-bar 2s ease-in-out forwards;
   --animate-fade-in: fade-in 0.4s ease-out;
 
-  @keyframes cell-ripple {
-    0% { opacity: 0.4; }
-    50% { opacity: 0.8; }
-    100% { opacity: 0.4; }
-  }
   @keyframes loading-bar {
     0% { transform: scaleX(0); }
     100% { transform: scaleX(1); }
@@ -105,13 +99,4 @@ html, body {
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
-}
-
-.dot-grid::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: radial-gradient(circle, color-mix(in oklch, var(--foreground) 12%, transparent) 1px, transparent 1px);
-  background-size: 28px 28px;
 }
