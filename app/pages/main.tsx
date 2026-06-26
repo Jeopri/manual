@@ -168,13 +168,13 @@ export default function Home() {
 
         {/* ── DESKTOP LAYOUT ── */}
         <div className="relative z-10 hidden min-h-screen md:block">
-          <nav className="absolute left-0 right-0 top-0 z-10 flex items-center justify-between px-8 py-5">
-            <div className="flex gap-8">
+          <nav className="absolute left-0 right-0 top-0 z-10 flex items-center px-8 py-5">
+            <div className="flex flex-1 gap-8">
             </div>
             <span className="text-sm font-black uppercase tracking-[0.2em] text-foreground" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
               Jeffrey
             </span>
-            <div className="flex items-center gap-5">
+            <div className="flex flex-1 items-center justify-end gap-5">
               {socialLinks.map(({ label, path }) => (
                 <a
                   key={label}
