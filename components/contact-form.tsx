@@ -30,9 +30,15 @@ export function ContactForm() {
     e.preventDefault();
     setStatus("sending");
 
-    // TODO: replace with your actual API route or email service (e.g. Resend, Nodemailer)
     try {
-      await new Promise((res) => setTimeout(res, 1200)); // placeholder delay
+      const res = await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      if (!res.ok) throw new Error("Failed to send");
+
       setStatus("success");
       setForm({ name: "", email: "", subject: "", message: "" });
     } catch {
