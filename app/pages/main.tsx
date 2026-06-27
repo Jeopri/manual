@@ -10,10 +10,10 @@ const words = `Results-driven IT graduate specializing in web development, data 
 const roles = ["Web Developer", "Full Stack Engineer", "Web Designer", "AI Automation"];
 
 const socialLinks = [
-  { label: "Facebook", path: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" },
-  { label: "LinkedIn", path: "M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z M4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" },
-  { label: "Instagram", path: "M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" },
-  { label: "Dribbble", path: "M12 22C6.48 22 2 17.52 2 12S6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm6.93-8H15c.13 1.6.64 3.1 1.43 4.4A8.05 8.05 0 0 0 18.93 14zM10 18.9V15H6.07a8.07 8.07 0 0 0 3.93 3.9zM10 13H5.07A8.07 8.07 0 0 0 6.5 17.9 10.07 10.07 0 0 1 10 13zm0-7.9A8.07 8.07 0 0 0 6.07 9H10V5.1zM12 4.07V9h4.93A8.05 8.05 0 0 0 12 4.07zM12 11v2h6.93A8.05 8.05 0 0 0 18.5 9H12v2z" },
+  { label: "Facebook", url: "https://www.facebook.com/JeffreySedoro/", path: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" },
+  { label: "LinkedIn", url: "https://www.linkedin.com/in/jeffrey-sedoro/", path: "M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z M4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" },
+  { label: "Instagram", url: "https://www.instagram.com/mistarjepri/?hl=en", path: "M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" },
+  { label: "Dribbble", url: "#", path: "M12 22C6.48 22 2 17.52 2 12S6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm6.93-8H15c.13 1.6.64 3.1 1.43 4.4A8.05 8.05 0 0 0 18.93 14zM10 18.9V15H6.07a8.07 8.07 0 0 0 3.93 3.9zM10 13H5.07A8.07 8.07 0 0 0 6.5 17.9 10.07 10.07 0 0 1 10 13zm0-7.9A8.07 8.07 0 0 0 6.07 9H10V5.1zM12 4.07V9h4.93A8.05 8.05 0 0 0 12 4.07zM12 11v2h6.93A8.05 8.05 0 0 0 18.5 9H12v2z" },
 ];
 
 export default function Home() {
@@ -102,8 +102,8 @@ export default function Home() {
                 </a>
               ))}
               <div className="flex gap-5 pt-2">
-                {socialLinks.map(({ label, path }) => (
-                  <a key={label} href="#" aria-label={label} className="text-foreground/25 transition-colors hover:text-primary">
+                {socialLinks.map(({ label, url, path }) => (
+                  <a key={label} href={url} target="_blank" rel="noopener noreferrer" aria-label={label} className="text-foreground/25 transition-colors hover:text-primary">
                     <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                       <path d={path} />
                     </svg>
@@ -175,10 +175,12 @@ export default function Home() {
               Jeffrey
             </span>
             <div className="flex flex-1 items-center justify-end gap-5">
-              {socialLinks.map(({ label, path }) => (
+              {socialLinks.map(({ label, url, path }) => (
                 <a
                   key={label}
-                  href="#"
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   className="text-foreground/25 transition-colors hover:text-primary"
                 >
