@@ -2,58 +2,61 @@ import { NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
 
-const SESSION_FILE = process.env.VERCEL
-  ? path.join("/tmp", "visitor-sessions.json")
-  : path.join(process.cwd(), ".visitor-sessions.json");
-
-const EVENTS_FILE = process.env.VERCEL
-  ? path.join("/tmp", "visitor-events.json")
-  : path.join(process.cwd(), ".visitor-events.json");
+const FILE = process.env.VERCEL
+  ? path.join("/tmp", "visitors.json")
+  : path.join(process.cwd(), ".visitors.json");
 
 const TTL = 30_000;
-const EVENT_TTL = 60_000;
+const EVENT_TTL = 30_000;
 
 type Sessions = Record<string, number>;
 
 type VisitorEvent = {
   id: number;
+  sessionId: string;
   location: string;
   timestamp: number;
 };
 
-async function readJSON<T>(file: string, fallback: T): Promise<T> {
+type Store = {
+  sessions: Sessions;
+  events: VisitorEvent[];
+  nextEventId: number;
+};
+
+function emptyStore(): Store {
+  return { sessions: {}, events: [], nextEventId: 1 };
+}
+
+async function readStore(): Promise<Store> {
   try {
-    const raw = await fs.readFile(file, "utf-8");
+    const raw = await fs.readFile(FILE, "utf-8");
     return JSON.parse(raw);
   } catch {
-    return fallback;
+    return emptyStore();
   }
 }
 
-async function writeJSON(file: string, data: unknown): Promise<void> {
-  await fs.writeFile(file, JSON.stringify(data), "utf-8");
+async function writeStore(store: Store): Promise<void> {
+  await fs.writeFile(FILE, JSON.stringify(store), "utf-8");
 }
 
-function cleanSessions(sessions: Sessions): Sessions {
+function clean(s: Store): Store {
   const now = Date.now();
-  for (const [id, time] of Object.entries(sessions)) {
-    if (now - time > TTL) delete sessions[id];
+  for (const [id, time] of Object.entries(s.sessions)) {
+    if (now - time > TTL) delete s.sessions[id];
   }
-  return sessions;
+  const cutoff = now - EVENT_TTL;
+  s.events = s.events.filter((e) => e.timestamp > cutoff);
+  return s;
 }
 
-function cleanEvents(events: VisitorEvent[]): VisitorEvent[] {
-  const cutoff = Date.now() - EVENT_TTL;
-  return events.filter((e) => e.timestamp > cutoff);
-}
-
-function getLocation(req: Request): string {
-  const country = req.headers.get("x-vercel-ip-country") || "";
-  const region = req.headers.get("x-vercel-ip-country-region") || "";
+function location(req: Request): string {
   const city = req.headers.get("x-vercel-ip-city") || "";
-  if (city && country) return `${city}, ${country}`;
-  if (country) return country;
-  return "Unknown";
+  const region = req.headers.get("x-vercel-ip-country-region") || "";
+  const country = req.headers.get("x-vercel-ip-country") || "";
+  const parts = [city, region, country].filter(Boolean);
+  return parts.join(", ") || "Unknown location";
 }
 
 export async function POST(req: Request) {
@@ -63,28 +66,30 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "sessionId required" }, { status: 400 });
     }
 
-    let sessions = await readJSON<Sessions>(SESSION_FILE, {});
-    sessions = cleanSessions(sessions);
+    let store = clean(await readStore());
 
-    const isNew = !sessions[sessionId];
-    sessions[sessionId] = Date.now();
-    await writeJSON(SESSION_FILE, sessions);
-
-    let events = await readJSON<VisitorEvent[]>(EVENTS_FILE, []);
-    events = cleanEvents(events);
+    const isNew = !store.sessions[sessionId];
+    store.sessions[sessionId] = Date.now();
 
     if (isNew) {
-      const location = getLocation(req);
-      const nextId = events.length > 0 ? events[events.length - 1].id + 1 : 1;
-      events.push({ id: nextId, location, timestamp: Date.now() });
-      await writeJSON(EVENTS_FILE, events);
+      store.events.push({
+        id: store.nextEventId++,
+        sessionId,
+        location: location(req),
+        timestamp: Date.now(),
+      });
     }
 
-    const newEvents = events.filter((e) => e.id > lastEventId);
+    await writeStore(store);
+
+    // Return only events NOT created by this session (everyone else should see them)
+    const newEvents = store.events.filter(
+      (e) => e.id > lastEventId && e.sessionId !== sessionId
+    );
 
     return NextResponse.json({
-      count: Object.keys(sessions).length,
-      events: newEvents,
+      count: Object.keys(store.sessions).length,
+      events: newEvents.map((e) => ({ id: e.id, location: e.location })),
     });
   } catch {
     return NextResponse.json({ count: 0, events: [] });
@@ -93,9 +98,9 @@ export async function POST(req: Request) {
 
 export async function GET() {
   try {
-    const sessions = cleanSessions(await readJSON<Sessions>(SESSION_FILE, {}));
-    await writeJSON(SESSION_FILE, sessions);
-    return NextResponse.json({ count: Object.keys(sessions).length });
+    const store = clean(await readStore());
+    await writeStore(store);
+    return NextResponse.json({ count: Object.keys(store.sessions).length });
   } catch {
     return NextResponse.json({ count: 0 });
   }
