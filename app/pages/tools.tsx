@@ -134,7 +134,7 @@ export default function Tools() {
   const section = sections[index];
 
   return (
-    <section className="w-full px-4 py-20 md:px-8 md:py-32">
+    <section id="tools" className="w-full px-4 py-20 md:px-8 md:py-32">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16">
           <p className="mb-3 text-xs font-mono tracking-widest text-muted-foreground">

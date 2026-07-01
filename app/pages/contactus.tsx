@@ -16,7 +16,7 @@ const LocationMap = dynamic(() => import("@/components/location-map").then((m) =
 
 export default function ContactPage() {
   return (
-    <section className="w-full px-4 py-20 md:px-8 md:py-32">
+    <section id="contact" className="w-full px-4 py-20 md:px-8 md:py-32">
       <div className="mx-auto max-w-7xl">
         <div className="mb-12">
           <p className="mb-3 text-xs font-mono tracking-widest text-muted-foreground">
