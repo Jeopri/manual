@@ -204,6 +204,7 @@ export default function Experience() {
                                 width={companyImages[exp.company].width}
                                 height={companyImages[exp.company].height}
                                 className="object-contain"
+                                style={{ width: "auto", height: "auto" }}
                               />
                             ) : (
                               initials[exp.company] || exp.company[0]
