@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./theme-provider";
 import ThemeToggle from "./theme-toggle";
+import LiveVisitors from "@/components/live-visitors";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,7 @@ export default function RootLayout({
         <ThemeProvider>
           <ThemeToggle />
           {children}
+          <LiveVisitors />
         </ThemeProvider>
       </body>
     </html>
