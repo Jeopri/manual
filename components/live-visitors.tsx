@@ -1,8 +1,18 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
 const SESSION_KEY = "visitor-session-id";
+
+type VisitorEvent = {
+  id: number;
+  location: string;
+};
+
+type Toast = {
+  id: number;
+  location: string;
+};
 
 function getOrCreateSessionId(): string {
   let id = localStorage.getItem(SESSION_KEY);
@@ -40,6 +50,8 @@ export default function LiveVisitors() {
   const [count, setCount] = useState<number | null>(null);
   const [open, setOpen] = useState(false);
   const [info, setInfo] = useState<ReturnType<typeof getDeviceInfo> | null>(null);
+  const [toasts, setToasts] = useState<Toast[]>([]);
+  const lastEventId = useRef(0);
 
   useEffect(() => {
     setInfo(getDeviceInfo());
@@ -53,24 +65,65 @@ export default function LiveVisitors() {
         const res = await fetch("/api/visitors", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ sessionId }),
+          body: JSON.stringify({ sessionId, lastEventId: lastEventId.current }),
         });
         const data = await res.json();
         setCount(data.count);
+
+        const events = data.events as VisitorEvent[];
+        if (events && events.length > 0) {
+          const newToasts = events.map((e) => ({ id: e.id, location: e.location }));
+          setToasts((prev) => [...prev, ...newToasts]);
+          lastEventId.current = events[events.length - 1].id;
+        }
       } catch {
         /* silently ignore */
       }
     };
 
     beat();
-    const interval = setInterval(beat, 15_000);
+    const interval = setInterval(beat, 10_000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (toasts.length === 0) return;
+    const timer = setTimeout(() => {
+      setToasts((prev) => prev.slice(1));
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, [toasts]);
 
   if (count === null) return null;
 
   return (
     <>
+      {/* New-visitor toasts */}
+      <div className="fixed bottom-24 right-6 z-50 flex flex-col gap-2">
+        <AnimatePresence>
+          {toasts.map((t) => (
+            <motion.div
+              key={t.id}
+              initial={{ opacity: 0, x: 40, scale: 0.95 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: 40, scale: 0.95 }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
+              className="flex items-center gap-2.5 rounded-xl border border-border bg-card/80 px-4 py-2.5 shadow-lg backdrop-blur-md"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary/60" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+              </span>
+              <div className="text-xs">
+                <p className="text-foreground font-medium">New visitor</p>
+                <p className="text-muted-foreground">{t.location}</p>
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+
+      {/* Info popup */}
       <AnimatePresence>
         {open && info && (
           <motion.div
@@ -78,7 +131,7 @@ export default function LiveVisitors() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.95 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="fixed bottom-20 right-6 z-50 w-64 rounded-xl border border-border bg-card p-4 shadow-xl backdrop-blur-md"
+            className="fixed bottom-20 right-6 z-40 w-64 rounded-xl border border-border bg-card p-4 shadow-xl backdrop-blur-md"
           >
             <div className="flex items-center gap-2 mb-3">
               <span className="relative flex h-2 w-2">
@@ -118,6 +171,7 @@ export default function LiveVisitors() {
         )}
       </AnimatePresence>
 
+      {/* Main badge */}
       <motion.button
         onClick={() => setOpen((p) => !p)}
         initial={{ opacity: 0, y: 20, scale: 0.95 }}
