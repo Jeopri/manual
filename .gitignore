@@ -37,8 +37,8 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-# visitor count (local dev)
-.visitor-count.json
+# visitor sessions (local dev)
+.visitor-sessions.json
 
 # vercel
 .vercel
