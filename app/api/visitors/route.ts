@@ -6,7 +6,7 @@ const FILE = process.env.VERCEL
   ? path.join("/tmp", "visitors.json")
   : path.join(process.cwd(), ".visitors.json");
 
-const TTL = 30_000;
+const TTL = 15_000;
 const EVENT_TTL = 30_000;
 
 type Sessions = Record<string, number>;
