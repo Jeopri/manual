@@ -63,6 +63,20 @@ export const toolGroups: ToolGroup[] = [
     ],
   },
   {
+    title: "AI Video Generation",
+    description: "Generating footage, avatars, and talking-head videos with AI.",
+    tools: [
+      { icon: "/images/tools/kling.ico", name: "Kling AI" },
+      { icon: "/images/tools/google-veo.ico", name: "Google Veo" },
+      { icon: "/images/tools/runway.png", name: "Runway" },
+      { icon: "/images/tools/sora.svg", name: "Sora" },
+      { icon: "/images/tools/luma.ico", name: "Luma Dream Machine" },
+      { icon: "/images/tools/pika.ico", name: "Pika" },
+      { icon: "/images/tools/heygen.ico", name: "HeyGen" },
+      { icon: "/images/tools/synthesia.png", name: "Synthesia" },
+    ],
+  },
+  {
     title: "Cloud & Containerization",
     description: "Deploying, scaling, and containerizing applications in the cloud.",
     tools: [
