@@ -1,0 +1,92 @@
+import type { Experience, ExperienceType } from "./types";
+
+export const experienceGroups: Record<ExperienceType, string> = {
+  work: "Work Experience",
+  freelance: "Freelancing / Commission",
+  project: "Academic & Personal Projects",
+};
+
+export const experience: Experience[] = [
+  {
+    role: "Automation Specialist & Interactive Developer",
+    company: "Lumen & Forge LLC",
+    logo: "/images/lumen-forge-icon.jpg",
+    date: "Jul 2026 – Present",
+    location: "Remote",
+    type: "work",
+    stack: ["React", "TypeScript", "Vite", "Supabase", "Three.js", "ChatGPT", "Claude", "Gemini", "Nemotron", "Qwen"],
+    projectSlugs: ["lumen-crm", "lumen-lightboard"],
+    highlights: [
+      "Maintain and extend an existing CRM system, adding new features based on business needs.",
+      "Built a collaborative lightboard (whiteboard) feature inspired by tools like Miro and Figma, integrated into the CRM.",
+      "Integrated an AI chatbot into the CRM using LLM models including ChatGPT, Claude, and Gemini.",
+      "Deployed locally hosted LLMs (Nemotron and Qwen, in the 30B–80B parameter range) and embedded them inside the CRM.",
+      "Implemented high-level security across the CRM and lightboard to protect against unauthorized access.",
+      "Communicate directly with the CEO/Founder for output reviews, feedback, and scoping of new features.",
+      "Use LLM tools to speed up development, applying core prompting principles to get precise, intended results.",
+    ],
+  },
+  {
+    role: "Data Analyst / Web Developer",
+    company: "Ubest Development Inc.",
+    logo: "/images/ubest.jpg",
+    date: "Oct 2025 – May 2026",
+    type: "work",
+    stack: ["React", "Next.js", "Node.js", "PostgreSQL", "Firebase", "UiPath", "Lark Base"],
+    projectSlugs: ["rpa-automation"],
+    highlights: [
+      "Built a centralized Data Department System across 64 store branches in Cebu, Negros, Leyte, Bohol, and Iloilo, with a pipeline that extracted, transformed, and visualized CRM transaction data and daily sales in a centralized dashboard using React/Next.js, Node.js, PostgreSQL, and Firebase.",
+      "Implemented Robotic Process Automation (RPA) using Yingdao Shadowbot and UiPath for repetitive tasks including web scraping and Windows software interaction, achieving 90% faster task completion.",
+      "Improved SKU sales accuracy to 80% through fully automated calculations, eliminating manual data entry in Excel.",
+      "Applied ABC and XYZ analysis to classify slow-moving and fast-moving SKUs, enabling smarter inventory decisions.",
+      "Developed an AI assistant within Lark Base for automated data organization, cleaning, and dynamic table creation using Anthropic models and OpenClaw.",
+      "Managed internal stakeholder requests and requirements to align data efforts with business needs.",
+      "Analyzed current processes and systems to identify inefficiencies and areas for improvement.",
+      "Prepared standard and specialized reports and provided analysis to support department decision-making.",
+    ],
+  },
+  {
+    role: "Frontend Developer (Intern)",
+    company: "Logicbase Interactive",
+    logo: "/images/logic.jpg",
+    date: "Jan 2025 – May 2025",
+    type: "work",
+    stack: ["Next.js", "React", "Laravel API"],
+    projectSlugs: ["moneycache-pos"],
+    highlights: [
+      "Developed Moneycache, a Point-of-Sale (POS) web application, as the primary frontend developer using Next.js and React.",
+      "Optimized page load performance with lazy loading, code splitting, and efficient state management.",
+      "Designed responsive UI components and integrated RESTful APIs from the Laravel backend.",
+      "Implemented client-side form validation and error handling to ensure data integrity across all input forms.",
+      "Collaborated with the design team to translate UI mockups into pixel-perfect React components.",
+      "Conducted cross-browser testing and debugging for consistent behavior across environments.",
+    ],
+  },
+  {
+    role: "Backend Developer",
+    company: "BukSU LabSecure – Bukidnon State University",
+    logo: "/images/buksu.jpg",
+    date: "Aug 2023 – Mar 2024",
+    type: "project",
+    stack: ["Laravel", "RFID"],
+    projectSlugs: ["buksu-labsecure"],
+    highlights: [
+      "Developed a laboratory access management system using Laravel as a full-stack framework.",
+      "Integrated an embedded RFID system for smart lab access control, unauthorized entry monitoring, attendance tracking, and scheduling for students and faculty.",
+    ],
+  },
+  {
+    role: "Full Stack Developer",
+    company: "MCity Veterinary – Malaybalay City Veterinary Office",
+    logo: "/images/mcity.png",
+    date: "Aug 2023 – Dec 2023",
+    type: "project",
+    stack: ["React", "Node.js", "MongoDB Atlas"],
+    projectSlugs: ["mcity-veterinary"],
+    highlights: [
+      "Built a veterinary information system using React, Node.js, and MongoDB Atlas to streamline city veterinary operations.",
+      "Conducted client consultations to gather and implement system requirements.",
+      "Applied UX best practices to design an intuitive interface, reducing confusion during demonstrations and day-to-day use.",
+    ],
+  },
+];

@@ -7,18 +7,17 @@ type FormState = {
   email: string;
   subject: string;
   message: string;
+  website: string;
 };
+
+const emptyForm: FormState = { name: "", email: "", subject: "", message: "", website: "" };
 
 type Status = "idle" | "sending" | "success" | "error";
 
 export function ContactForm() {
-  const [form, setForm] = useState<FormState>({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
+  const [form, setForm] = useState<FormState>(emptyForm);
   const [status, setStatus] = useState<Status>("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -37,17 +36,28 @@ export function ContactForm() {
         body: JSON.stringify(form),
       });
 
-      if (!res.ok) throw new Error("Failed to send");
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        // Show validation / rate-limit messages; keep server failures generic.
+        throw new Error(res.status < 500 ? (data?.error ?? "") : "");
+      }
 
       setStatus("success");
-      setForm({ name: "", email: "", subject: "", message: "" });
-    } catch {
+      setForm(emptyForm);
+    } catch (err) {
+      setErrorMessage(err instanceof Error ? err.message : "");
       setStatus("error");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit} className="relative flex flex-col gap-4">
+      {/* Honeypot: hidden from people, but bots fill it in. The API drops those submissions. */}
+      <div aria-hidden="true" className="absolute left-[-10000px] h-px w-px overflow-hidden">
+        <label htmlFor="website">Website</label>
+        <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" value={form.website} onChange={handleChange} />
+      </div>
+
       {/* Name + Email row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-1.5">
@@ -62,7 +72,7 @@ export function ContactForm() {
             value={form.name}
             onChange={handleChange}
             placeholder="Your name"
-            className="bg-card border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/40 focus:bg-card/80 transition-all"
+            className="bg-transparent border border-border rounded-md px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-foreground/50 transition-all"
           />
         </div>
         <div className="flex flex-col gap-1.5">
@@ -77,7 +87,7 @@ export function ContactForm() {
             value={form.email}
             onChange={handleChange}
             placeholder="you@example.com"
-            className="bg-card border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/40 focus:bg-card/80 transition-all"
+            className="bg-transparent border border-border rounded-md px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-foreground/50 transition-all"
           />
         </div>
       </div>
@@ -94,7 +104,7 @@ export function ContactForm() {
           value={form.subject}
           onChange={handleChange}
           placeholder="What's this about?"
-          className="bg-card border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/40 focus:bg-card/80 transition-all"
+          className="bg-transparent border border-border rounded-md px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-foreground/50 transition-all"
         />
       </div>
 
@@ -111,7 +121,7 @@ export function ContactForm() {
           value={form.message}
           onChange={handleChange}
           placeholder="Tell me about the project, role, or idea..."
-          className="bg-card border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/40 focus:bg-card/80 transition-all resize-none"
+          className="bg-transparent border border-border rounded-md px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-foreground/50 transition-all resize-none"
         />
       </div>
 
@@ -119,7 +129,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="mt-1 flex items-center justify-center gap-2 bg-primary text-primary-foreground rounded-xl px-6 py-3.5 text-sm transition-all hover:brightness-110 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+        className="mt-1 flex items-center justify-center gap-2 bg-foreground text-background rounded-md px-6 py-3 text-sm font-medium transition-all hover:opacity-90 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {status === "sending" ? (
           "Sending..."
@@ -147,13 +157,13 @@ export function ContactForm() {
 
       {/* Feedback messages */}
       {status === "success" && (
-        <p className="text-center text-sm text-muted-foreground">
+        <p role="status" className="text-center text-sm text-muted-foreground">
           Message sent &mdash; I&apos;ll get back to you soon.
         </p>
       )}
       {status === "error" && (
-        <p className="text-center text-sm text-destructive">
-          Something went wrong. Please try again or email me directly.
+        <p role="alert" className="text-center text-sm text-destructive">
+          {errorMessage || "Something went wrong. Please try again or email me directly."}
         </p>
       )}
     </form>

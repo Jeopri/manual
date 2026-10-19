@@ -39,6 +39,9 @@ yarn-error.log*
 
 # visitor sessions (local dev)
 .visitor-sessions.json
+.visitors.json
+.visitor-count.json
+.visitor-events.json
 
 # vercel
 .vercel

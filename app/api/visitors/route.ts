@@ -66,7 +66,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "sessionId required" }, { status: 400 });
     }
 
-    let store = clean(await readStore());
+    const store = clean(await readStore());
 
     const isNew = !store.sessions[sessionId];
     store.sessions[sessionId] = Date.now();
