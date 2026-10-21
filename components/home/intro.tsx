@@ -4,15 +4,15 @@ import { site } from "@/content/site";
 
 export default function Intro() {
   return (
-    <section aria-label="Introduction" className="grid gap-8 sm:grid-cols-[180px_1fr] sm:items-start">
-      <div className="halftone aspect-square w-40 rounded-md border border-border sm:w-full">
+    <section aria-label="Introduction" className="grid gap-8 sm:grid-cols-[220px_1fr] sm:items-start">
+      <div className="halftone aspect-square w-48 rounded-md border border-border sm:w-full">
         <Image
           src={site.portrait}
           alt={site.name}
           fill
           priority
-          sizes="180px"
-          className="object-cover object-top"
+          sizes="(min-width: 640px) 220px, 192px"
+          className="origin-top scale-[1.18] object-cover object-top"
         />
       </div>
 

@@ -100,14 +100,16 @@ html {
   color: var(--background);
 }
 
-/* Halftone portrait: greyscale photo under a fine dot screen in the page color */
+/* Halftone portrait: greyscale photo under a light dot screen in the page color.
+   The screen is subtle so the face stays readable, and fades out on hover. */
 .halftone {
   position: relative;
   overflow: hidden;
 }
 
 .halftone img {
-  filter: grayscale(1) contrast(1.2) brightness(1.02);
+  filter: grayscale(1) contrast(1.05);
+  transition: filter 0.4s ease;
 }
 
 .halftone::after {
@@ -115,8 +117,18 @@ html {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-image: radial-gradient(circle, var(--background) 0.75px, transparent 1.1px);
+  background-image: radial-gradient(circle, var(--background) 0.45px, transparent 0.8px);
   background-size: 3px 3px;
+  opacity: 0.45;
+  transition: opacity 0.4s ease;
+}
+
+.halftone:hover::after {
+  opacity: 0;
+}
+
+.halftone:hover img {
+  filter: none;
 }
 
 /* Leaflet: greyscale tiles, inverted in dark mode, cards in the page palette */
